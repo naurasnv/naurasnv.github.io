@@ -213,7 +213,7 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <form>
+            <form name="naura-contact-form">
               <div class="mb-3">
                 <label for="name" class="form-label">Your Name</label>
                 <input
@@ -221,6 +221,7 @@
                   class="form-control"
                   id="name"
                   aria-describedby="name"
+                  name="nama"
                 />
               </div>
               <div class="mb-3">
@@ -232,6 +233,7 @@
                   class="form-control"
                   id="email"
                   aria-describedby="email"
+                  name="email"
                 />
                 <div id="emailHelp" class="form-text">
                   We'll never share your email with anyone else.
@@ -239,7 +241,7 @@
               </div>
               <div class="mb-3">
                 <label for="pesan" class="form-label">Message</label>
-                <textarea class="form-control" id="pesan" rows="3"></textarea>
+                <textarea class="form-control" id="pesan" rows="3" name="message"></textarea>
               </div>
               <button
                 type="submit"
@@ -281,5 +283,18 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwVn_x3uZlJxfcqQDocPa1SdR-CwCsxDxTLB5kb2irhJc75RKSRYtYQkPEVy3rvwtbn/exec';
+      const form = document.forms['naura-contact-form']
+    
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => console.log('Success!', response))
+          .catch(error => console.error('Error!', error.message))
+      })
+    </script>
+
   </body>
 </html>

@@ -100,7 +100,9 @@
             </p>
           </div>
           <div class="col-md-4">
-            I went to school at Smkn 7 Samarinda. I love makeup, dancing, and eating because they can raise the mood so well, and also I really like listening to music.
+            I went to school at Smkn 7 Samarinda. I love makeup, dancing, and
+            eating because they can raise the mood so well, and also I really
+            like listening to music.
           </div>
         </div>
       </div>
@@ -213,6 +215,18 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
+            <div
+              class="alert alert-success alert-dismissible fade show d-none my-alert"
+              role="alert"
+            >
+              <strong>Thank you!</strong> We have received your message.
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
             <form name="naura-contact-form">
               <div class="mb-3">
                 <label for="name" class="form-label">Your Name</label>
@@ -241,14 +255,31 @@
               </div>
               <div class="mb-3">
                 <label for="pesan" class="form-label">Message</label>
-                <textarea class="form-control" id="pesan" rows="3" name="message"></textarea>
+                <textarea
+                  class="form-control"
+                  id="pesan"
+                  rows="3"
+                  name="pesan"
+                ></textarea>
               </div>
               <button
                 type="submit"
-                class="btn btn"
+                class="btn-kirim btn btn"
                 style="background-color: #ffbfbf"
               >
                 Submit
+              </button>
+              <button
+                class="btn-loading btn btn d-none"
+                type="button"
+                style="background-color: #ffbfbf"
+                disabled
+              >
+                <span
+                  class="spinner-border spinner-border-sm"
+                  aria-hidden="true"
+                ></span>
+                <span role="status">Loading...</span>
               </button>
             </form>
           </div>
@@ -285,16 +316,32 @@
     ></script>
 
     <script>
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwVn_x3uZlJxfcqQDocPa1SdR-CwCsxDxTLB5kb2irhJc75RKSRYtYQkPEVy3rvwtbn/exec';
-      const form = document.forms['naura-contact-form']
-    
-      form.addEventListener('submit', e => {
-        e.preventDefault()
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-          .then(response => console.log('Success!', response))
-          .catch(error => console.error('Error!', error.message))
-      })
-    </script>
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbzxmddF49bH-g54mr88v4WgbCgREyRqWhbnUMpvWb-u7INxazQzhPuQWPKmdKPBSsR7bg/exec";
+      const form = document.forms["naura-contact-form"];
+      const btnKirim = document.querySelector(".btn-kirim");
+      const btnLoading = document.querySelector(".btn-loading");
+      const myAlert = document.querySelector(".my-alert");
 
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // ketika tombol submit diklik
+        // tampilkan tombol loading, hilangkan tombol kirim
+        btnLoading.classList.toggle("d-none");
+        btnKirim.classList.toggle("d-none");
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then((response) => {
+            // tampilkan tombol kirim, hilangkan tombol loading
+            btnLoading.classList.toggle("d-none");
+            btnKirim.classList.toggle("d-none");
+            // tampilkan alert
+            myAlert.classList.toggle("d-none");
+            // reset form
+            form.reset();
+            console.log("Success!", response);
+          })
+          .catch((error) => console.error("Error!", error.message));
+      });
+    </script>
   </body>
 </html>
